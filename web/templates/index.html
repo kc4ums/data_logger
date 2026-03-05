@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MDF Mill — Data Logger</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0f172a; color: #e2e8f0; }
+
+    header {
+      background: #1e293b;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #334155;
+    }
+    header h1 { font-size: 1.25rem; font-weight: 600; color: #f1f5f9; }
+    #alarm-badge {
+      display: none;
+      background: #ef4444;
+      color: #fff;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    #last-updated { font-size: 0.75rem; color: #94a3b8; }
+
+    main { padding: 1.5rem 2rem; }
+
+    .plc-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 0.75rem;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    .plc-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      background: #263346;
+      border-bottom: 1px solid #334155;
+    }
+    .plc-header h2 { font-size: 1rem; font-weight: 600; }
+    .plc-header .ip { font-size: 0.8rem; color: #94a3b8; }
+    .badge {
+      margin-left: auto;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .badge.ok  { background: #16a34a; color: #dcfce7; }
+    .badge.err { background: #dc2626; color: #fee2e2; }
+
+    table { width: 100%; border-collapse: collapse; }
+    th, td {
+      text-align: left;
+      padding: 0.55rem 1rem;
+      font-size: 0.875rem;
+      border-bottom: 1px solid #1e293b;
+    }
+    th { color: #94a3b8; font-weight: 500; background: #1a2740; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #263346; cursor: pointer; }
+    .val-alarm { color: #f87171; font-weight: 700; }
+    .val-good  { color: #86efac; }
+    .val-err   { color: #fbbf24; font-style: italic; }
+
+    /* Chart modal */
+    #modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    #modal-overlay.open { display: flex; }
+    #modal-box {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      width: min(820px, 95vw);
+      position: relative;
+    }
+    #modal-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
+    #modal-close {
+      position: absolute; top: 0.75rem; right: 1rem;
+      background: none; border: none; color: #94a3b8;
+      font-size: 1.25rem; cursor: pointer;
+    }
+    #modal-close:hover { color: #f1f5f9; }
+    #chart-container { position: relative; height: 320px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MDF Mill — PLC Data Logger</h1>
+    <span id="alarm-badge">⚠ ALARM</span>
+    <span id="last-updated"></span>
+  </header>
+
+  <main id="plc-grid">
+    <p style="color:#94a3b8;margin-top:2rem;text-align:center">Loading…</p>
+  </main>
+
+  <!-- Chart modal -->
+  <div id="modal-overlay">
+    <div id="modal-box">
+      <button id="modal-close" title="Close">✕</button>
+      <div id="modal-title">Tag history</div>
+      <div id="chart-container">
+        <canvas id="trend-chart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

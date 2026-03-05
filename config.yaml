@@ -1,0 +1,55 @@
+poll_interval_seconds: 5
+web_port: 5000
+
+plcs:
+  - name: "Moulder Station 1"
+    ip: "192.168.1.10"
+    port: 502
+    unit_id: 1
+    tags:
+      - name: "part_count"
+        register_type: holding
+        address: 400001
+        data_type: uint16
+        unit: "pcs"
+      - name: "feed_speed"
+        register_type: holding
+        address: 400010
+        data_type: float32
+        unit: "m/min"
+      - name: "spindle_load"
+        register_type: input
+        address: 300001
+        data_type: uint16
+        unit: "%"
+      - name: "fault_active"
+        register_type: coil
+        address: 1
+        data_type: bool
+        unit: ""
+
+  - name: "Moulder Station 2"
+    ip: "192.168.1.11"
+    port: 502
+    unit_id: 1
+    tags:
+      - name: "part_count"
+        register_type: holding
+        address: 400001
+        data_type: uint16
+        unit: "pcs"
+      - name: "feed_speed"
+        register_type: holding
+        address: 400010
+        data_type: float32
+        unit: "m/min"
+      - name: "spindle_load"
+        register_type: input
+        address: 300001
+        data_type: uint16
+        unit: "%"
+      - name: "fault_active"
+        register_type: coil
+        address: 1
+        data_type: bool
+        unit: ""

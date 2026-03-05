@@ -1,0 +1,4 @@
+pymodbus>=3.6
+flask>=3.0
+pyyaml>=6.0
+apscheduler>=3.10
